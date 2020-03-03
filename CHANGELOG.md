@@ -5,3 +5,7 @@ Initial Release
 ## 1.0.1
 
 Added example code.
+
+## 1.0.2
+
+Added description
