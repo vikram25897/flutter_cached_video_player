@@ -8,10 +8,11 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-final MethodChannel _channel = const MethodChannel('flutter_cached_video_player')
+final MethodChannel _channel =
+    const MethodChannel('flutter_cached_video_player')
 // This will clear all open videos on the platform when a full restart is
 // performed.
-  ..invokeMethod<void>('init');
+      ..invokeMethod<void>('init');
 
 class DurationRange {
   DurationRange(this.start, this.end);
@@ -139,7 +140,8 @@ enum DataSourceType { asset, network, file }
 /// To reclaim the resources used by the player call [dispose].
 ///
 /// After [dispose] all further calls are ignored.
-class CachedVideoPlayerController extends ValueNotifier<CachedVideoPlayerValue> {
+class CachedVideoPlayerController
+    extends ValueNotifier<CachedVideoPlayerValue> {
   /// Constructs a [CachedVideoPlayerController] playing a video from an asset.
   ///
   /// The name of the asset is given by the [dataSource] argument and must not be
@@ -205,7 +207,7 @@ class CachedVideoPlayerController extends ValueNotifier<CachedVideoPlayerValue> 
         dataSourceDescription = <String, dynamic>{'uri': dataSource};
     }
     final Map<String, dynamic> response =
-    await _channel.invokeMapMethod<String, dynamic>(
+        await _channel.invokeMapMethod<String, dynamic>(
       'create',
       dataSourceDescription,
     );
@@ -325,7 +327,7 @@ class CachedVideoPlayerController extends ValueNotifier<CachedVideoPlayerValue> 
       );
       _timer = Timer.periodic(
         const Duration(milliseconds: 500),
-            (Timer timer) async {
+        (Timer timer) async {
           if (_isDisposed) {
             return;
           }
@@ -561,11 +563,11 @@ class _VideoScrubberState extends State<_VideoScrubber> {
 /// that will also detect the gestures.
 class VideoProgressIndicator extends StatefulWidget {
   VideoProgressIndicator(
-      this.controller, {
-        VideoProgressColors colors,
-        this.allowScrubbing,
-        this.padding = const EdgeInsets.only(top: 5.0),
-      }) : colors = colors ?? VideoProgressColors();
+    this.controller, {
+    VideoProgressColors colors,
+    this.allowScrubbing,
+    this.padding = const EdgeInsets.only(top: 5.0),
+  }) : colors = colors ?? VideoProgressColors();
 
   final CachedVideoPlayerController controller;
   final VideoProgressColors colors;

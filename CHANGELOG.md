@@ -1,4 +1,7 @@
 ## 1.0.0
 
-* TODO: Describe initial release.
 Initial Release
+
+## 1.0.1
+
+Added example code.
