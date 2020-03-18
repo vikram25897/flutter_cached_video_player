@@ -13,14 +13,18 @@ public class SimpleCacheSingleton {
 
     private static SimpleCacheSingleton instance;
 
-    private SimpleCacheSingleton(Context context, long maxCacheSize){
+    private SimpleCacheSingleton(Context context, long maxCacheSize) {
         evictor = new LeastRecentlyUsedCacheEvictor(maxCacheSize);
         simpleCache = new SimpleCache(new File(context.getCacheDir(), "media"), evictor);
     }
 
-    public static SimpleCacheSingleton getInstance(Context context, long maxCacheSize){
-        if(instance==null)
-            instance = new SimpleCacheSingleton(context, maxCacheSize);
+    public synchronized static SimpleCacheSingleton getInstance(Context context, long maxCacheSize) {
+        if (instance == null) {
+            synchronized (SimpleCacheSingleton.class) {
+                if (instance == null)
+                    instance = new SimpleCacheSingleton(context, maxCacheSize);
+            }
+        }
         return instance;
     }
 }

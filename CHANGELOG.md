@@ -13,3 +13,7 @@ Added description
 ## 1.0.2+1
 
 Fixed minor bug
+
+## 1.0.2+2
+
+Made SimpleCache singleton thread safe
