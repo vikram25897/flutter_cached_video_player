@@ -17,3 +17,7 @@ Fixed minor bug
 ## 1.0.2+2
 
 Made SimpleCache singleton thread safe
+
+## 1.0.3
+
+Support iOS
