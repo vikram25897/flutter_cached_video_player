@@ -9,4 +9,10 @@ First, add `cached_video_player` as a [dependency in your pubspec.yaml file](htt
 Follow the Android and iOS configuration steps of the official [video_player](https://pub.dev/packages/video_player#installation) package. This plugin won't work in Web or Desktop.
 
 ### Issues
-* `maxFileSize` and `maxCacheSize` are hardcoded at 100MiB and 1GiB respectively.
+* `maxFileSize` and `maxCacheSize` are hardcoded at 100MiB and 1GiB respectively in Android.
+
+### Contributors
+
+* [Vikram Pratap Singh](https://github.com/vikram25897)
+* [EnderTan](https://github.com/EnderTan)
+
