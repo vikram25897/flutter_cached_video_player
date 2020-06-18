@@ -5,6 +5,7 @@
 #import "CachedVideoPlayerPlugin.h"
 #import <AVFoundation/AVFoundation.h>
 #import <GLKit/GLKit.h>
+#import <KTVHTTPCache/KTVHTTPCache.h>
 int64_t FLTCMTimeToMillis(CMTime time) {
   if (time.timescale == 0) return 0;
   return time.value * 1000 / time.timescale;
@@ -411,6 +412,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 - (instancetype)initWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   self = [super init];
   NSAssert(self, @"super init cannot be nil");
+  [KTVHTTPCache proxyStart:nil];
   _registry = [registrar textures];
   _messenger = [registrar messenger];
   _registrar = registrar;
@@ -461,7 +463,8 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
       player = [[FLTVideoPlayer alloc] initWithAsset:assetPath frameUpdater:frameUpdater];
       [self onPlayerSetup:player frameUpdater:frameUpdater result:result];
     } else if (uriArg) {
-      player = [[FLTVideoPlayer alloc] initWithURL:[NSURL URLWithString:uriArg]
+      NSURL *proxyURL = [KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:uriArg]];
+      player = [[FLTVideoPlayer alloc] initWithURL:proxyURL
                                       frameUpdater:frameUpdater];
       [self onPlayerSetup:player frameUpdater:frameUpdater result:result];
     } else {
