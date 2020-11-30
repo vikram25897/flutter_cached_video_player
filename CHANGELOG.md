@@ -21,3 +21,8 @@ Made SimpleCache singleton thread safe
 ## 1.0.3
 
 Support iOS
+
+## 1.0.4
+
+Android: gain audio focus when playing a video. Stop mixing audio from 
+  3rd party video/music players when a video is played.
