@@ -1,0 +1,31 @@
+package io.flutter.plugins.videoplayer;
+
+import android.content.Context;
+
+import com.google.android.exoplayer2.database.ExoDatabaseProvider;
+import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
+import com.google.android.exoplayer2.upstream.cache.SimpleCache;
+
+import java.io.File;
+
+public class SimpleCacheSingleton {
+    LeastRecentlyUsedCacheEvictor evictor;
+    SimpleCache simpleCache;
+
+    private static SimpleCacheSingleton instance;
+
+    private SimpleCacheSingleton(Context context, long maxCacheSize) {
+        evictor = new LeastRecentlyUsedCacheEvictor(maxCacheSize);
+        simpleCache = new SimpleCache(new File(context.getCacheDir(), "media"), evictor, new ExoDatabaseProvider(context));
+    }
+
+    public synchronized static SimpleCacheSingleton getInstance(Context context, long maxCacheSize) {
+        if (instance == null) {
+            synchronized (SimpleCacheSingleton.class) {
+                if (instance == null)
+                    instance = new SimpleCacheSingleton(context, maxCacheSize);
+            }
+        }
+        return instance;
+    }
+}

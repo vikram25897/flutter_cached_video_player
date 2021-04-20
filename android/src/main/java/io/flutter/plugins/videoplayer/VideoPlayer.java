@@ -77,17 +77,16 @@ final class VideoPlayer {
 
     DataSource.Factory dataSourceFactory;
     if (isHTTP(uri)) {
-      DefaultHttpDataSourceFactory httpDataSourceFactory =
-          new DefaultHttpDataSourceFactory(
-              "ExoPlayer",
-              null,
-              DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
-              DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS,
-              true);
+      CacheDataSourceFactory cacheDataSourceFactory =
+          new CacheDataSourceFactory(
+              context,
+                  // TODO: need a way to set these programmatically. Maybe fork VideoPlayerPlatformInterface
+                  1024*1024*1024,
+                  1024*1024*100);
       if (httpHeaders != null && !httpHeaders.isEmpty()) {
-        httpDataSourceFactory.getDefaultRequestProperties().set(httpHeaders);
+        cacheDataSourceFactory.setHeaders(httpHeaders);
       }
-      dataSourceFactory = httpDataSourceFactory;
+      dataSourceFactory = cacheDataSourceFactory;
     } else {
       dataSourceFactory = new DefaultDataSourceFactory(context, "ExoPlayer");
     }
