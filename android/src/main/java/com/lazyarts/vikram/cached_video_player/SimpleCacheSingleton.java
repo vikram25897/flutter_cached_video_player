@@ -1,4 +1,4 @@
-package io.flutter.plugins.videoplayer;
+package com.lazyarts.vikram.cached_video_player;
 
 import android.content.Context;
 

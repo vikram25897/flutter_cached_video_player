@@ -6,7 +6,7 @@ package io.flutter.plugins.videoplayerexample;
 
 import android.os.Bundle;
 import dev.flutter.plugins.integration_test.IntegrationTestPlugin;
-import io.flutter.plugins.videoplayer.VideoPlayerPlugin;
+import com.lazyarts.vikram.cached_video_player.VideoPlayerPlugin;
 
 @SuppressWarnings("deprecation")
 public class EmbeddingV1Activity extends io.flutter.app.FlutterActivity {

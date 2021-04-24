@@ -4,12 +4,12 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'package:cached_video_player/cached_video_player.dart';
 /// An example of using the plugin, controlling lifecycle and playback of the
 /// video.
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
 void main() {
   runApp(

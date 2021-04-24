@@ -7,11 +7,11 @@
 // @dart = 2.9
 import 'dart:async';
 
+import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:video_player/video_player.dart';
 
 const Duration _playDuration = Duration(seconds: 1);
 

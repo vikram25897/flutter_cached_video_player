@@ -2,9 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:video_player/src/closed_caption_file.dart';
-import 'package:video_player/video_player.dart';
 
 void main() {
   test('Parses SubRip file', () {
