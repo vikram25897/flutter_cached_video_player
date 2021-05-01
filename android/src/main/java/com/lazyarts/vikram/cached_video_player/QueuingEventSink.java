@@ -1,8 +1,11 @@
+// Copyright 2013 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 package com.lazyarts.vikram.cached_video_player;
 
-import java.util.ArrayList;
-
 import io.flutter.plugin.common.EventChannel;
+import java.util.ArrayList;
 
 /**
  * And implementation of {@link EventChannel.EventSink} which can wrap an underlying sink.
