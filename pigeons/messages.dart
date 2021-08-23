@@ -62,7 +62,7 @@ void configurePigeon(PigeonOptions opts) {
   opts.dartTestOut = '../video_player_platform_interface/lib/test.dart';
   opts.objcHeaderOut = 'ios/Classes/messages.h';
   opts.objcSourceOut = 'ios/Classes/messages.m';
-  opts.objcOptions.prefix = 'FLT';
+  opts.objcOptions.prefix = 'Cached';
   opts.javaOut =
       'android/src/main/java/io/flutter/plugins/videoplayer/Messages.java';
   opts.javaOptions.package = 'io.flutter.plugins.videoplayer';

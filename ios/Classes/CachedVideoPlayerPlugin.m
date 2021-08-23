@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#import "FLTVideoPlayerPlugin.h"
+#import "CachedVideoPlayerPlugin.h"
 #import <AVFoundation/AVFoundation.h>
 #import <GLKit/GLKit.h>
 #import "messages.h"
@@ -12,19 +12,19 @@
 #error Code Requires ARC.
 #endif
 
-int64_t FLTCMTimeToMillis(CMTime time) {
+int64_t CachedCMTimeToMillis(CMTime time) {
   if (time.timescale == 0) return 0;
   return time.value * 1000 / time.timescale;
 }
 
-@interface FLTFrameUpdater : NSObject
+@interface CachedFrameUpdater : NSObject
 @property(nonatomic) int64_t textureId;
 @property(nonatomic, weak, readonly) NSObject<FlutterTextureRegistry>* registry;
 - (void)onDisplayLink:(CADisplayLink*)link;
 @end
 
-@implementation FLTFrameUpdater
-- (FLTFrameUpdater*)initWithRegistry:(NSObject<FlutterTextureRegistry>*)registry {
+@implementation CachedFrameUpdater
+- (CachedFrameUpdater*)initWithRegistry:(NSObject<FlutterTextureRegistry>*)registry {
   NSAssert(self, @"super init cannot be nil");
   if (self == nil) return nil;
   _registry = registry;
@@ -36,7 +36,7 @@ int64_t FLTCMTimeToMillis(CMTime time) {
 }
 @end
 
-@interface FLTVideoPlayer : NSObject <FlutterTexture, FlutterStreamHandler>
+@interface CachedVideoPlayer : NSObject <FlutterTexture, FlutterStreamHandler>
 @property(readonly, nonatomic) AVPlayer* player;
 @property(readonly, nonatomic) AVPlayerItemVideoOutput* videoOutput;
 @property(readonly, nonatomic) CADisplayLink* displayLink;
@@ -48,7 +48,7 @@ int64_t FLTCMTimeToMillis(CMTime time) {
 @property(nonatomic) bool isLooping;
 @property(nonatomic, readonly) bool isInitialized;
 - (instancetype)initWithURL:(NSURL*)url
-               frameUpdater:(FLTFrameUpdater*)frameUpdater
+               frameUpdater:(CachedFrameUpdater*)frameUpdater
                 httpHeaders:(NSDictionary<NSString*, NSString*>*)headers;
 - (void)play;
 - (void)pause;
@@ -62,8 +62,8 @@ static void* playbackLikelyToKeepUpContext = &playbackLikelyToKeepUpContext;
 static void* playbackBufferEmptyContext = &playbackBufferEmptyContext;
 static void* playbackBufferFullContext = &playbackBufferFullContext;
 
-@implementation FLTVideoPlayer
-- (instancetype)initWithAsset:(NSString*)asset frameUpdater:(FLTFrameUpdater*)frameUpdater {
+@implementation CachedVideoPlayer
+- (instancetype)initWithAsset:(NSString*)asset frameUpdater:(CachedFrameUpdater*)frameUpdater {
   NSString* path = [[NSBundle mainBundle] pathForResource:asset ofType:nil];
   return [self initWithURL:[NSURL fileURLWithPath:path] frameUpdater:frameUpdater httpHeaders:nil];
 }
@@ -152,7 +152,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
   return videoComposition;
 }
 
-- (void)createVideoOutputAndDisplayLink:(FLTFrameUpdater*)frameUpdater {
+- (void)createVideoOutputAndDisplayLink:(CachedFrameUpdater*)frameUpdater {
   NSDictionary* pixBuffAttributes = @{
     (id)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA),
     (id)kCVPixelBufferIOSurfacePropertiesKey : @{}
@@ -166,7 +166,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 }
 
 - (instancetype)initWithURL:(NSURL*)url
-               frameUpdater:(FLTFrameUpdater*)frameUpdater
+               frameUpdater:(CachedFrameUpdater*)frameUpdater
                 httpHeaders:(NSDictionary<NSString*, NSString*>*)headers {
   NSDictionary<NSString*, id>* options = nil;
   if (headers != nil && [headers count] != 0) {
@@ -200,7 +200,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
   return transform;
 }
 
-- (instancetype)initWithPlayerItem:(AVPlayerItem*)item frameUpdater:(FLTFrameUpdater*)frameUpdater {
+- (instancetype)initWithPlayerItem:(AVPlayerItem*)item frameUpdater:(CachedFrameUpdater*)frameUpdater {
   self = [super init];
   NSAssert(self, @"super init cannot be nil");
   _isInitialized = false;
@@ -257,8 +257,8 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
       NSMutableArray<NSArray<NSNumber*>*>* values = [[NSMutableArray alloc] init];
       for (NSValue* rangeValue in [object loadedTimeRanges]) {
         CMTimeRange range = [rangeValue CMTimeRangeValue];
-        int64_t start = FLTCMTimeToMillis(range.start);
-        [values addObject:@[ @(start), @(start + FLTCMTimeToMillis(range.duration)) ]];
+        int64_t start = CachedCMTimeToMillis(range.start);
+        [values addObject:@[ @(start), @(start + CachedCMTimeToMillis(range.duration)) ]];
       }
       _eventSink(@{@"event" : @"bufferingUpdate", @"values" : values});
     }
@@ -348,11 +348,11 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 }
 
 - (int64_t)position {
-  return FLTCMTimeToMillis([_player currentTime]);
+  return CachedCMTimeToMillis([_player currentTime]);
 }
 
 - (int64_t)duration {
-  return FLTCMTimeToMillis([[_player currentItem] duration]);
+  return CachedCMTimeToMillis([[_player currentItem] duration]);
 }
 
 - (void)seekTo:(int)location {
@@ -455,18 +455,18 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 
 @end
 
-@interface FLTVideoPlayerPlugin () <FLTVideoPlayerApi>
+@interface CachedVideoPlayerPlugin () <CachedVideoPlayerApi>
 @property(readonly, weak, nonatomic) NSObject<FlutterTextureRegistry>* registry;
 @property(readonly, weak, nonatomic) NSObject<FlutterBinaryMessenger>* messenger;
 @property(readonly, strong, nonatomic) NSMutableDictionary* players;
 @property(readonly, strong, nonatomic) NSObject<FlutterPluginRegistrar>* registrar;
 @end
 
-@implementation FLTVideoPlayerPlugin
+@implementation CachedVideoPlayerPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  FLTVideoPlayerPlugin* instance = [[FLTVideoPlayerPlugin alloc] initWithRegistrar:registrar];
+  CachedVideoPlayerPlugin* instance = [[CachedVideoPlayerPlugin alloc] initWithRegistrar:registrar];
   [registrar publish:instance];
-  FLTVideoPlayerApiSetup(registrar.messenger, instance);
+  CachedVideoPlayerApiSetup(registrar.messenger, instance);
 }
 
 - (instancetype)initWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -482,18 +482,18 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 
 - (void)detachFromEngineForRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   for (NSNumber* textureId in _players.allKeys) {
-    FLTVideoPlayer* player = _players[textureId];
+    CachedVideoPlayer* player = _players[textureId];
     [player disposeSansEventChannel];
   }
   [_players removeAllObjects];
   // TODO(57151): This should be commented out when 57151's fix lands on stable.
   // This is the correct behavior we never did it in the past and the engine
   // doesn't currently support it.
-  // FLTVideoPlayerApiSetup(registrar.messenger, nil);
+  // CachedVideoPlayerApiSetup(registrar.messenger, nil);
 }
 
-- (FLTTextureMessage*)onPlayerSetup:(FLTVideoPlayer*)player
-                       frameUpdater:(FLTFrameUpdater*)frameUpdater {
+- (CachedTextureMessage*)onPlayerSetup:(CachedVideoPlayer*)player
+                       frameUpdater:(CachedFrameUpdater*)frameUpdater {
   int64_t textureId = [_registry registerTexture:player];
   frameUpdater.textureId = textureId;
   FlutterEventChannel* eventChannel = [FlutterEventChannel
@@ -503,7 +503,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
   [eventChannel setStreamHandler:player];
   player.eventChannel = eventChannel;
   _players[@(textureId)] = player;
-  FLTTextureMessage* result = [[FLTTextureMessage alloc] init];
+  CachedTextureMessage* result = [[CachedTextureMessage alloc] init];
   result.textureId = @(textureId);
   return result;
 }
@@ -519,9 +519,9 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
   [_players removeAllObjects];
 }
 
-- (FLTTextureMessage*)create:(FLTCreateMessage*)input error:(FlutterError**)error {
-  FLTFrameUpdater* frameUpdater = [[FLTFrameUpdater alloc] initWithRegistry:_registry];
-  FLTVideoPlayer* player;
+- (CachedTextureMessage*)create:(CachedCreateMessage*)input error:(FlutterError**)error {
+  CachedFrameUpdater* frameUpdater = [[CachedFrameUpdater alloc] initWithRegistry:_registry];
+  CachedVideoPlayer* player;
   if (input.asset) {
     NSString* assetPath;
     if (input.packageName) {
@@ -529,12 +529,12 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     } else {
       assetPath = [_registrar lookupKeyForAsset:input.asset];
     }
-    player = [[FLTVideoPlayer alloc] initWithAsset:assetPath frameUpdater:frameUpdater];
+    player = [[CachedVideoPlayer alloc] initWithAsset:assetPath frameUpdater:frameUpdater];
     return [self onPlayerSetup:player frameUpdater:frameUpdater];
   } else if (input.uri) {
-    // player = [[FLTVideoPlayer alloc] initWithURL:[NSURL URLWithString:input.uri]
+    // player = [[CachedVideoPlayer alloc] initWithURL:[NSURL URLWithString:input.uri]
     NSURL *proxyURL = [KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:input.uri]];
-    player = [[FLTVideoPlayer alloc] initWithURL:proxyURL
+    player = [[CachedVideoPlayer alloc] initWithURL:proxyURL
                                     frameUpdater:frameUpdater
                                      httpHeaders:input.httpHeaders];
     return [self onPlayerSetup:player frameUpdater:frameUpdater];
@@ -544,8 +544,8 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
   }
 }
 
-- (void)dispose:(FLTTextureMessage*)input error:(FlutterError**)error {
-  FLTVideoPlayer* player = _players[input.textureId];
+- (void)dispose:(CachedTextureMessage*)input error:(FlutterError**)error {
+  CachedVideoPlayer* player = _players[input.textureId];
   [_registry unregisterTexture:input.textureId.intValue];
   [_players removeObjectForKey:input.textureId];
   // If the Flutter contains https://github.com/flutter/engine/pull/12695,
@@ -566,44 +566,44 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
                  });
 }
 
-- (void)setLooping:(FLTLoopingMessage*)input error:(FlutterError**)error {
-  FLTVideoPlayer* player = _players[input.textureId];
+- (void)setLooping:(CachedLoopingMessage*)input error:(FlutterError**)error {
+  CachedVideoPlayer* player = _players[input.textureId];
   [player setIsLooping:[input.isLooping boolValue]];
 }
 
-- (void)setVolume:(FLTVolumeMessage*)input error:(FlutterError**)error {
-  FLTVideoPlayer* player = _players[input.textureId];
+- (void)setVolume:(CachedVolumeMessage*)input error:(FlutterError**)error {
+  CachedVideoPlayer* player = _players[input.textureId];
   [player setVolume:[input.volume doubleValue]];
 }
 
-- (void)setPlaybackSpeed:(FLTPlaybackSpeedMessage*)input error:(FlutterError**)error {
-  FLTVideoPlayer* player = _players[input.textureId];
+- (void)setPlaybackSpeed:(CachedPlaybackSpeedMessage*)input error:(FlutterError**)error {
+  CachedVideoPlayer* player = _players[input.textureId];
   [player setPlaybackSpeed:[input.speed doubleValue]];
 }
 
-- (void)play:(FLTTextureMessage*)input error:(FlutterError**)error {
-  FLTVideoPlayer* player = _players[input.textureId];
+- (void)play:(CachedTextureMessage*)input error:(FlutterError**)error {
+  CachedVideoPlayer* player = _players[input.textureId];
   [player play];
 }
 
-- (FLTPositionMessage*)position:(FLTTextureMessage*)input error:(FlutterError**)error {
-  FLTVideoPlayer* player = _players[input.textureId];
-  FLTPositionMessage* result = [[FLTPositionMessage alloc] init];
+- (CachedPositionMessage*)position:(CachedTextureMessage*)input error:(FlutterError**)error {
+  CachedVideoPlayer* player = _players[input.textureId];
+  CachedPositionMessage* result = [[CachedPositionMessage alloc] init];
   result.position = @([player position]);
   return result;
 }
 
-- (void)seekTo:(FLTPositionMessage*)input error:(FlutterError**)error {
-  FLTVideoPlayer* player = _players[input.textureId];
+- (void)seekTo:(CachedPositionMessage*)input error:(FlutterError**)error {
+  CachedVideoPlayer* player = _players[input.textureId];
   [player seekTo:[input.position intValue]];
 }
 
-- (void)pause:(FLTTextureMessage*)input error:(FlutterError**)error {
-  FLTVideoPlayer* player = _players[input.textureId];
+- (void)pause:(CachedTextureMessage*)input error:(FlutterError**)error {
+  CachedVideoPlayer* player = _players[input.textureId];
   [player pause];
 }
 
-- (void)setMixWithOthers:(FLTMixWithOthersMessage*)input
+- (void)setMixWithOthers:(CachedMixWithOthersMessage*)input
                    error:(FlutterError* _Nullable __autoreleasing*)error {
   if ([input.mixWithOthers boolValue]) {
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback

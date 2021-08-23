@@ -15,9 +15,9 @@ import 'package:video_player_platform_interface/messages.dart';
 import 'package:video_player_platform_interface/test.dart';
 import 'package:video_player_platform_interface/video_player_platform_interface.dart';
 
-class FakeController extends ValueNotifier<VideoPlayerValue>
-    implements VideoPlayerController {
-  FakeController() : super(VideoPlayerValue(duration: Duration.zero));
+class FakeController extends ValueNotifier<CachedVideoPlayerValue>
+    implements CachedVideoPlayerController {
+  FakeController() : super(CachedVideoPlayerValue(duration: Duration.zero));
 
   @override
   Future<void> dispose() async {
@@ -25,7 +25,7 @@ class FakeController extends ValueNotifier<VideoPlayerValue>
   }
 
   @override
-  int textureId = VideoPlayerController.kUninitializedTextureId;
+  int textureId = CachedVideoPlayerController.kUninitializedTextureId;
 
   @override
   String get dataSource => '';
@@ -99,7 +99,7 @@ class _FakeClosedCaptionFile extends ClosedCaptionFile {
 void main() {
   testWidgets('update texture', (WidgetTester tester) async {
     final FakeController controller = FakeController();
-    await tester.pumpWidget(VideoPlayer(controller));
+    await tester.pumpWidget(CachedVideoPlayer(controller));
     expect(find.byType(Texture), findsNothing);
 
     controller.textureId = 123;
@@ -115,7 +115,7 @@ void main() {
   testWidgets('update controller', (WidgetTester tester) async {
     final FakeController controller1 = FakeController();
     controller1.textureId = 101;
-    await tester.pumpWidget(VideoPlayer(controller1));
+    await tester.pumpWidget(CachedVideoPlayer(controller1));
     expect(
         find.byWidgetPredicate(
           (Widget widget) => widget is Texture && widget.textureId == 101,
@@ -124,7 +124,7 @@ void main() {
 
     final FakeController controller2 = FakeController();
     controller2.textureId = 102;
-    await tester.pumpWidget(VideoPlayer(controller2));
+    await tester.pumpWidget(CachedVideoPlayer(controller2));
     expect(
         find.byWidgetPredicate(
           (Widget widget) => widget is Texture && widget.textureId == 102,
@@ -186,7 +186,7 @@ void main() {
 
     group('initialize', () {
       test('asset', () async {
-        final VideoPlayerController controller = VideoPlayerController.asset(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.asset(
           'a.avi',
         );
         await controller.initialize();
@@ -198,7 +198,7 @@ void main() {
       });
 
       test('network', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -218,7 +218,7 @@ void main() {
       });
 
       test('network with hint', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
           formatHint: VideoFormat.dash,
         );
@@ -239,7 +239,7 @@ void main() {
       });
 
       test('network with some headers', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
           httpHeaders: {'Authorization': 'Bearer token'},
         );
@@ -260,7 +260,7 @@ void main() {
       });
 
       test('init errors', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'http://testing.com/invalid_url',
         );
         try {
@@ -275,8 +275,8 @@ void main() {
       });
 
       test('file', () async {
-        final VideoPlayerController controller =
-            VideoPlayerController.file(File('a.avi'));
+        final CachedVideoPlayerController controller =
+            CachedVideoPlayerController.file(File('a.avi'));
         await controller.initialize();
 
         expect(fakeVideoPlayerPlatform.dataSourceDescriptions[0].uri,
@@ -285,11 +285,11 @@ void main() {
     });
 
     test('dispose', () async {
-      final VideoPlayerController controller = VideoPlayerController.network(
+      final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
         'https://127.0.0.1',
       );
       expect(
-          controller.textureId, VideoPlayerController.kUninitializedTextureId);
+          controller.textureId, CachedVideoPlayerController.kUninitializedTextureId);
       expect(await controller.position, const Duration(seconds: 0));
       await controller.initialize();
 
@@ -300,7 +300,7 @@ void main() {
     });
 
     test('play', () async {
-      final VideoPlayerController controller = VideoPlayerController.network(
+      final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
         'https://127.0.0.1',
       );
       await controller.initialize();
@@ -319,7 +319,7 @@ void main() {
     });
 
     test('setLooping', () async {
-      final VideoPlayerController controller = VideoPlayerController.network(
+      final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
         'https://127.0.0.1',
       );
       await controller.initialize();
@@ -330,7 +330,7 @@ void main() {
     });
 
     test('pause', () async {
-      final VideoPlayerController controller = VideoPlayerController.network(
+      final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
         'https://127.0.0.1',
       );
       await controller.initialize();
@@ -345,7 +345,7 @@ void main() {
 
     group('seekTo', () {
       test('works', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -357,7 +357,7 @@ void main() {
       });
 
       test('clamps values that are too high or low', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -373,7 +373,7 @@ void main() {
 
     group('setVolume', () {
       test('works', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -386,7 +386,7 @@ void main() {
       });
 
       test('clamps values that are too high or low', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -402,7 +402,7 @@ void main() {
 
     group('setPlaybackSpeed', () {
       test('works', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -415,7 +415,7 @@ void main() {
       });
 
       test('rejects negative values', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -427,7 +427,7 @@ void main() {
 
     group('caption', () {
       test('works when seeking', () async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
           closedCaptionFile: _loadClosedCaption(),
         );
@@ -455,7 +455,7 @@ void main() {
 
     group('Platform callbacks', () {
       testWidgets('playing completed', (WidgetTester tester) async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -474,7 +474,7 @@ void main() {
       });
 
       testWidgets('buffering status', (WidgetTester tester) async {
-        final VideoPlayerController controller = VideoPlayerController.network(
+        final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
           'https://127.0.0.1',
         );
         await controller.initialize();
@@ -536,7 +536,7 @@ void main() {
 
   group('VideoPlayerValue', () {
     test('uninitialized()', () {
-      final VideoPlayerValue uninitialized = VideoPlayerValue.uninitialized();
+      final CachedVideoPlayerValue uninitialized = CachedVideoPlayerValue.uninitialized();
 
       expect(uninitialized.duration, equals(Duration.zero));
       expect(uninitialized.position, equals(Duration.zero));
@@ -556,7 +556,7 @@ void main() {
 
     test('erroneous()', () {
       const String errorMessage = 'foo';
-      final VideoPlayerValue error = VideoPlayerValue.erroneous(errorMessage);
+      final CachedVideoPlayerValue error = CachedVideoPlayerValue.erroneous(errorMessage);
 
       expect(error.duration, equals(Duration.zero));
       expect(error.position, equals(Duration.zero));
@@ -590,7 +590,7 @@ void main() {
       const double volume = 0.5;
       const double playbackSpeed = 1.5;
 
-      final VideoPlayerValue value = VideoPlayerValue(
+      final CachedVideoPlayerValue value = CachedVideoPlayerValue(
         duration: duration,
         size: size,
         position: position,
@@ -621,15 +621,15 @@ void main() {
     });
 
     test('copyWith()', () {
-      final VideoPlayerValue original = VideoPlayerValue.uninitialized();
-      final VideoPlayerValue exactCopy = original.copyWith();
+      final CachedVideoPlayerValue original = CachedVideoPlayerValue.uninitialized();
+      final CachedVideoPlayerValue exactCopy = original.copyWith();
 
       expect(exactCopy.toString(), original.toString());
     });
 
     group('aspectRatio', () {
       test('640x480 -> 4:3', () {
-        final value = VideoPlayerValue(
+        final value = CachedVideoPlayerValue(
           isInitialized: true,
           size: Size(640, 480),
           duration: Duration(seconds: 1),
@@ -638,7 +638,7 @@ void main() {
       });
 
       test('no size -> 1.0', () {
-        final value = VideoPlayerValue(
+        final value = CachedVideoPlayerValue(
           isInitialized: true,
           duration: Duration(seconds: 1),
         );
@@ -646,7 +646,7 @@ void main() {
       });
 
       test('height = 0 -> 1.0', () {
-        final value = VideoPlayerValue(
+        final value = CachedVideoPlayerValue(
           isInitialized: true,
           size: Size(640, 0),
           duration: Duration(seconds: 1),
@@ -655,7 +655,7 @@ void main() {
       });
 
       test('width = 0 -> 1.0', () {
-        final value = VideoPlayerValue(
+        final value = CachedVideoPlayerValue(
           isInitialized: true,
           size: Size(0, 480),
           duration: Duration(seconds: 1),
@@ -664,7 +664,7 @@ void main() {
       });
 
       test('negative aspect ratio -> 1.0', () {
-        final value = VideoPlayerValue(
+        final value = CachedVideoPlayerValue(
           isInitialized: true,
           size: Size(640, -480),
           duration: Duration(seconds: 1),
@@ -690,7 +690,7 @@ void main() {
   });
 
   test('setMixWithOthers', () async {
-    final VideoPlayerController controller = VideoPlayerController.file(
+    final CachedVideoPlayerController controller = CachedVideoPlayerController.file(
         File(''),
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
     await controller.initialize();
