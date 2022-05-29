@@ -600,7 +600,7 @@ class _CachedVideoAppLifeCycleObserver extends Object with WidgetsBindingObserve
 /// Widget that displays the video controlled by [controller].
 class CachedVideoPlayer extends StatefulWidget {
   /// Uses the given [controller] for all video rendered in this widget.
-  CachedVideoPlayer(this.controller);
+  CachedVideoPlayer(this.controller, {Key? key}): super(key: key);
 
   /// The [CachedVideoPlayerController] responsible for the video being rendered in
   /// this widget.
@@ -638,7 +638,9 @@ class _CachedVideoPlayerState extends State<CachedVideoPlayer> {
   @override
   void didUpdateWidget(CachedVideoPlayer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    oldWidget.controller.removeListener(_listener);
+    if (oldWidget.controller._isDisposed == false) {
+      oldWidget.controller.removeListener(_listener);
+    }
     _textureId = widget.controller.textureId;
     widget.controller.addListener(_listener);
   }
