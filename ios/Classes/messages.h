@@ -11,19 +11,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FLTTextureMessage;
-@class FLTCreateMessage;
-@class FLTLoopingMessage;
-@class FLTVolumeMessage;
-@class FLTPlaybackSpeedMessage;
-@class FLTPositionMessage;
-@class FLTMixWithOthersMessage;
+@class CachedTextureMessage;
+@class CachedCreateMessage;
+@class CachedLoopingMessage;
+@class CachedVolumeMessage;
+@class CachedPlaybackSpeedMessage;
+@class CachedPositionMessage;
+@class CachedMixWithOthersMessage;
 
-@interface FLTTextureMessage : NSObject
+@interface CachedTextureMessage : NSObject
 @property(nonatomic, strong, nullable) NSNumber *textureId;
 @end
 
-@interface FLTCreateMessage : NSObject
+@interface CachedCreateMessage : NSObject
 @property(nonatomic, copy, nullable) NSString *asset;
 @property(nonatomic, copy, nullable) NSString *uri;
 @property(nonatomic, copy, nullable) NSString *packageName;
@@ -31,49 +31,49 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSDictionary *httpHeaders;
 @end
 
-@interface FLTLoopingMessage : NSObject
+@interface CachedLoopingMessage : NSObject
 @property(nonatomic, strong, nullable) NSNumber *textureId;
 @property(nonatomic, strong, nullable) NSNumber *isLooping;
 @end
 
-@interface FLTVolumeMessage : NSObject
+@interface CachedVolumeMessage : NSObject
 @property(nonatomic, strong, nullable) NSNumber *textureId;
 @property(nonatomic, strong, nullable) NSNumber *volume;
 @end
 
-@interface FLTPlaybackSpeedMessage : NSObject
+@interface CachedPlaybackSpeedMessage : NSObject
 @property(nonatomic, strong, nullable) NSNumber *textureId;
 @property(nonatomic, strong, nullable) NSNumber *speed;
 @end
 
-@interface FLTPositionMessage : NSObject
+@interface CachedPositionMessage : NSObject
 @property(nonatomic, strong, nullable) NSNumber *textureId;
 @property(nonatomic, strong, nullable) NSNumber *position;
 @end
 
-@interface FLTMixWithOthersMessage : NSObject
+@interface CachedMixWithOthersMessage : NSObject
 @property(nonatomic, strong, nullable) NSNumber *mixWithOthers;
 @end
 
-@protocol FLTVideoPlayerApi
+@protocol CachedVideoPlayerApi
 - (void)initialize:(FlutterError *_Nullable *_Nonnull)error;
-- (nullable FLTTextureMessage *)create:(FLTCreateMessage *)input
+- (nullable CachedTextureMessage *)create:(CachedCreateMessage *)input
                                  error:(FlutterError *_Nullable *_Nonnull)error;
-- (void)dispose:(FLTTextureMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
-- (void)setLooping:(FLTLoopingMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
-- (void)setVolume:(FLTVolumeMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
-- (void)setPlaybackSpeed:(FLTPlaybackSpeedMessage *)input
+- (void)dispose:(CachedTextureMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
+- (void)setLooping:(CachedLoopingMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
+- (void)setVolume:(CachedVolumeMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
+- (void)setPlaybackSpeed:(CachedPlaybackSpeedMessage *)input
                    error:(FlutterError *_Nullable *_Nonnull)error;
-- (void)play:(FLTTextureMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
-- (nullable FLTPositionMessage *)position:(FLTTextureMessage *)input
+- (void)play:(CachedTextureMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
+- (nullable CachedPositionMessage *)position:(CachedTextureMessage *)input
                                     error:(FlutterError *_Nullable *_Nonnull)error;
-- (void)seekTo:(FLTPositionMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
-- (void)pause:(FLTTextureMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
-- (void)setMixWithOthers:(FLTMixWithOthersMessage *)input
+- (void)seekTo:(CachedPositionMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
+- (void)pause:(CachedTextureMessage *)input error:(FlutterError *_Nullable *_Nonnull)error;
+- (void)setMixWithOthers:(CachedMixWithOthersMessage *)input
                    error:(FlutterError *_Nullable *_Nonnull)error;
 @end
 
-extern void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger,
-                                   id<FLTVideoPlayerApi> _Nullable api);
+extern void CachedVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger,
+                                   id<CachedVideoPlayerApi> _Nullable api);
 
 NS_ASSUME_NONNULL_END

@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-final class VideoPlayer {
+final class CachedVideoPlayer {
   private static final String FORMAT_SS = "ss";
   private static final String FORMAT_DASH = "dash";
   private static final String FORMAT_HLS = "hls";
@@ -57,7 +57,7 @@ final class VideoPlayer {
 
   private final VideoPlayerOptions options;
 
-  VideoPlayer(
+  CachedVideoPlayer(
       Context context,
       EventChannel eventChannel,
       TextureRegistry.SurfaceTextureEntry textureEntry,
