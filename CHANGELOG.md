@@ -33,3 +33,7 @@ Change back to `CachedVideoPlayer` namespace.
 ## 2.0.2
 
 Fix some issues reported on Github.
+
+## 2.0.3
+
+Add example and increase pub score.
