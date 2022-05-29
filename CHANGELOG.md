@@ -29,3 +29,7 @@ Based on video_player 2.1.1
 ## 2.0.1
 
 Change back to `CachedVideoPlayer` namespace.
+
+## 2.0.2
+
+Fix some issues reported on Github.

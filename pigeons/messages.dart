@@ -56,14 +56,3 @@ abstract class VideoPlayerApi {
   void pause(TextureMessage msg);
   void setMixWithOthers(MixWithOthersMessage msg);
 }
-
-void configurePigeon(PigeonOptions opts) {
-  opts.dartOut = '../video_player_platform_interface/lib/messages.dart';
-  opts.dartTestOut = '../video_player_platform_interface/lib/test.dart';
-  opts.objcHeaderOut = 'ios/Classes/messages.h';
-  opts.objcSourceOut = 'ios/Classes/messages.m';
-  opts.objcOptions.prefix = 'Cached';
-  opts.javaOut =
-      'android/src/main/java/io/flutter/plugins/videoplayer/Messages.java';
-  opts.javaOptions.package = 'io.flutter.plugins.videoplayer';
-}

@@ -177,7 +177,8 @@ class CachedVideoPlayerValue {
 /// To reclaim the resources used by the player call [dispose].
 ///
 /// After [dispose] all further calls are ignored.
-class CachedVideoPlayerController extends ValueNotifier<CachedVideoPlayerValue> {
+class CachedVideoPlayerController
+    extends ValueNotifier<CachedVideoPlayerValue> {
   /// Constructs a [CachedVideoPlayerController] playing a video from an asset.
   ///
   /// The name of the asset is given by the [dataSource] argument and must not be
@@ -566,7 +567,8 @@ class CachedVideoPlayerController extends ValueNotifier<CachedVideoPlayerValue> 
   }
 }
 
-class _CachedVideoAppLifeCycleObserver extends Object with WidgetsBindingObserver {
+class _CachedVideoAppLifeCycleObserver extends Object
+    with WidgetsBindingObserver {
   _CachedVideoAppLifeCycleObserver(this._controller);
 
   bool _wasPlayingBeforePause = false;
@@ -600,7 +602,7 @@ class _CachedVideoAppLifeCycleObserver extends Object with WidgetsBindingObserve
 /// Widget that displays the video controlled by [controller].
 class CachedVideoPlayer extends StatefulWidget {
   /// Uses the given [controller] for all video rendered in this widget.
-  CachedVideoPlayer(this.controller, {Key? key}): super(key: key);
+  CachedVideoPlayer(this.controller, {Key? key}) : super(key: key);
 
   /// The [CachedVideoPlayerController] responsible for the video being rendered in
   /// this widget.
