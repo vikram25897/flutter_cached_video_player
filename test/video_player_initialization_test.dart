@@ -15,7 +15,7 @@ void main() {
     WidgetsFlutterBinding.ensureInitialized();
     FakeVideoPlayerPlatform fakeVideoPlayerPlatform = FakeVideoPlayerPlatform();
 
-    final VideoPlayerController controller = VideoPlayerController.network(
+    final CachedVideoPlayerController controller = CachedVideoPlayerController.network(
       'https://127.0.0.1',
     );
     await controller.initialize();

@@ -26,38 +26,38 @@ static NSDictionary<NSString *, id> *wrapResult(NSDictionary *result, FlutterErr
   };
 }
 
-@interface FLTTextureMessage ()
-+ (FLTTextureMessage *)fromMap:(NSDictionary *)dict;
+@interface CachedTextureMessage ()
++ (CachedTextureMessage *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
-@interface FLTCreateMessage ()
-+ (FLTCreateMessage *)fromMap:(NSDictionary *)dict;
+@interface CachedCreateMessage ()
++ (CachedCreateMessage *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
-@interface FLTLoopingMessage ()
-+ (FLTLoopingMessage *)fromMap:(NSDictionary *)dict;
+@interface CachedLoopingMessage ()
++ (CachedLoopingMessage *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
-@interface FLTVolumeMessage ()
-+ (FLTVolumeMessage *)fromMap:(NSDictionary *)dict;
+@interface CachedVolumeMessage ()
++ (CachedVolumeMessage *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
-@interface FLTPlaybackSpeedMessage ()
-+ (FLTPlaybackSpeedMessage *)fromMap:(NSDictionary *)dict;
+@interface CachedPlaybackSpeedMessage ()
++ (CachedPlaybackSpeedMessage *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
-@interface FLTPositionMessage ()
-+ (FLTPositionMessage *)fromMap:(NSDictionary *)dict;
+@interface CachedPositionMessage ()
++ (CachedPositionMessage *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
-@interface FLTMixWithOthersMessage ()
-+ (FLTMixWithOthersMessage *)fromMap:(NSDictionary *)dict;
+@interface CachedMixWithOthersMessage ()
++ (CachedMixWithOthersMessage *)fromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
 
-@implementation FLTTextureMessage
-+ (FLTTextureMessage *)fromMap:(NSDictionary *)dict {
-  FLTTextureMessage *result = [[FLTTextureMessage alloc] init];
+@implementation CachedTextureMessage
++ (CachedTextureMessage *)fromMap:(NSDictionary *)dict {
+  CachedTextureMessage *result = [[CachedTextureMessage alloc] init];
   result.textureId = dict[@"textureId"];
   if ((NSNull *)result.textureId == [NSNull null]) {
     result.textureId = nil;
@@ -71,9 +71,9 @@ static NSDictionary<NSString *, id> *wrapResult(NSDictionary *result, FlutterErr
 }
 @end
 
-@implementation FLTCreateMessage
-+ (FLTCreateMessage *)fromMap:(NSDictionary *)dict {
-  FLTCreateMessage *result = [[FLTCreateMessage alloc] init];
+@implementation CachedCreateMessage
++ (CachedCreateMessage *)fromMap:(NSDictionary *)dict {
+  CachedCreateMessage *result = [[CachedCreateMessage alloc] init];
   result.asset = dict[@"asset"];
   if ((NSNull *)result.asset == [NSNull null]) {
     result.asset = nil;
@@ -109,9 +109,9 @@ static NSDictionary<NSString *, id> *wrapResult(NSDictionary *result, FlutterErr
 }
 @end
 
-@implementation FLTLoopingMessage
-+ (FLTLoopingMessage *)fromMap:(NSDictionary *)dict {
-  FLTLoopingMessage *result = [[FLTLoopingMessage alloc] init];
+@implementation CachedLoopingMessage
++ (CachedLoopingMessage *)fromMap:(NSDictionary *)dict {
+  CachedLoopingMessage *result = [[CachedLoopingMessage alloc] init];
   result.textureId = dict[@"textureId"];
   if ((NSNull *)result.textureId == [NSNull null]) {
     result.textureId = nil;
@@ -130,9 +130,9 @@ static NSDictionary<NSString *, id> *wrapResult(NSDictionary *result, FlutterErr
 }
 @end
 
-@implementation FLTVolumeMessage
-+ (FLTVolumeMessage *)fromMap:(NSDictionary *)dict {
-  FLTVolumeMessage *result = [[FLTVolumeMessage alloc] init];
+@implementation CachedVolumeMessage
++ (CachedVolumeMessage *)fromMap:(NSDictionary *)dict {
+  CachedVolumeMessage *result = [[CachedVolumeMessage alloc] init];
   result.textureId = dict[@"textureId"];
   if ((NSNull *)result.textureId == [NSNull null]) {
     result.textureId = nil;
@@ -150,9 +150,9 @@ static NSDictionary<NSString *, id> *wrapResult(NSDictionary *result, FlutterErr
 }
 @end
 
-@implementation FLTPlaybackSpeedMessage
-+ (FLTPlaybackSpeedMessage *)fromMap:(NSDictionary *)dict {
-  FLTPlaybackSpeedMessage *result = [[FLTPlaybackSpeedMessage alloc] init];
+@implementation CachedPlaybackSpeedMessage
++ (CachedPlaybackSpeedMessage *)fromMap:(NSDictionary *)dict {
+  CachedPlaybackSpeedMessage *result = [[CachedPlaybackSpeedMessage alloc] init];
   result.textureId = dict[@"textureId"];
   if ((NSNull *)result.textureId == [NSNull null]) {
     result.textureId = nil;
@@ -170,9 +170,9 @@ static NSDictionary<NSString *, id> *wrapResult(NSDictionary *result, FlutterErr
 }
 @end
 
-@implementation FLTPositionMessage
-+ (FLTPositionMessage *)fromMap:(NSDictionary *)dict {
-  FLTPositionMessage *result = [[FLTPositionMessage alloc] init];
+@implementation CachedPositionMessage
++ (CachedPositionMessage *)fromMap:(NSDictionary *)dict {
+  CachedPositionMessage *result = [[CachedPositionMessage alloc] init];
   result.textureId = dict[@"textureId"];
   if ((NSNull *)result.textureId == [NSNull null]) {
     result.textureId = nil;
@@ -191,9 +191,9 @@ static NSDictionary<NSString *, id> *wrapResult(NSDictionary *result, FlutterErr
 }
 @end
 
-@implementation FLTMixWithOthersMessage
-+ (FLTMixWithOthersMessage *)fromMap:(NSDictionary *)dict {
-  FLTMixWithOthersMessage *result = [[FLTMixWithOthersMessage alloc] init];
+@implementation CachedMixWithOthersMessage
++ (CachedMixWithOthersMessage *)fromMap:(NSDictionary *)dict {
+  CachedMixWithOthersMessage *result = [[CachedMixWithOthersMessage alloc] init];
   result.mixWithOthers = dict[@"mixWithOthers"];
   if ((NSNull *)result.mixWithOthers == [NSNull null]) {
     result.mixWithOthers = nil;
@@ -207,7 +207,7 @@ static NSDictionary<NSString *, id> *wrapResult(NSDictionary *result, FlutterErr
 }
 @end
 
-void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVideoPlayerApi> api) {
+void CachedVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<CachedVideoPlayerApi> api) {
   {
     FlutterBasicMessageChannel *channel = [FlutterBasicMessageChannel
         messageChannelWithName:@"dev.flutter.pigeon.VideoPlayerApi.initialize"
@@ -228,9 +228,9 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTCreateMessage *input = [FLTCreateMessage fromMap:message];
+        CachedCreateMessage *input = [CachedCreateMessage fromMap:message];
         FlutterError *error;
-        FLTTextureMessage *output = [api create:input error:&error];
+        CachedTextureMessage *output = [api create:input error:&error];
         callback(wrapResult([output toMap], error));
       }];
     } else {
@@ -243,7 +243,7 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTTextureMessage *input = [FLTTextureMessage fromMap:message];
+        CachedTextureMessage *input = [CachedTextureMessage fromMap:message];
         FlutterError *error;
         [api dispose:input error:&error];
         callback(wrapResult(nil, error));
@@ -258,7 +258,7 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTLoopingMessage *input = [FLTLoopingMessage fromMap:message];
+        CachedLoopingMessage *input = [CachedLoopingMessage fromMap:message];
         FlutterError *error;
         [api setLooping:input error:&error];
         callback(wrapResult(nil, error));
@@ -273,7 +273,7 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTVolumeMessage *input = [FLTVolumeMessage fromMap:message];
+        CachedVolumeMessage *input = [CachedVolumeMessage fromMap:message];
         FlutterError *error;
         [api setVolume:input error:&error];
         callback(wrapResult(nil, error));
@@ -288,7 +288,7 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTPlaybackSpeedMessage *input = [FLTPlaybackSpeedMessage fromMap:message];
+        CachedPlaybackSpeedMessage *input = [CachedPlaybackSpeedMessage fromMap:message];
         FlutterError *error;
         [api setPlaybackSpeed:input error:&error];
         callback(wrapResult(nil, error));
@@ -303,7 +303,7 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                                            binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTTextureMessage *input = [FLTTextureMessage fromMap:message];
+        CachedTextureMessage *input = [CachedTextureMessage fromMap:message];
         FlutterError *error;
         [api play:input error:&error];
         callback(wrapResult(nil, error));
@@ -318,9 +318,9 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTTextureMessage *input = [FLTTextureMessage fromMap:message];
+        CachedTextureMessage *input = [CachedTextureMessage fromMap:message];
         FlutterError *error;
-        FLTPositionMessage *output = [api position:input error:&error];
+        CachedPositionMessage *output = [api position:input error:&error];
         callback(wrapResult([output toMap], error));
       }];
     } else {
@@ -333,7 +333,7 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTPositionMessage *input = [FLTPositionMessage fromMap:message];
+        CachedPositionMessage *input = [CachedPositionMessage fromMap:message];
         FlutterError *error;
         [api seekTo:input error:&error];
         callback(wrapResult(nil, error));
@@ -348,7 +348,7 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTTextureMessage *input = [FLTTextureMessage fromMap:message];
+        CachedTextureMessage *input = [CachedTextureMessage fromMap:message];
         FlutterError *error;
         [api pause:input error:&error];
         callback(wrapResult(nil, error));
@@ -363,7 +363,7 @@ void FLTVideoPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, id<FLTVi
                binaryMessenger:binaryMessenger];
     if (api) {
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FLTMixWithOthersMessage *input = [FLTMixWithOthersMessage fromMap:message];
+        CachedMixWithOthersMessage *input = [CachedMixWithOthersMessage fromMap:message];
         FlutterError *error;
         [api setMixWithOthers:input error:&error];
         callback(wrapResult(nil, error));

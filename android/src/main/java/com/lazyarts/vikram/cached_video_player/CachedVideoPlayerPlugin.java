@@ -27,17 +27,17 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 /** Android platform implementation of the VideoPlayerPlugin. */
-public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
+public class CachedVideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
   private static final String TAG = "VideoPlayerPlugin";
-  private final LongSparseArray<VideoPlayer> videoPlayers = new LongSparseArray<>();
+  private final LongSparseArray<CachedVideoPlayer> videoPlayers = new LongSparseArray<>();
   private FlutterState flutterState;
   private VideoPlayerOptions options = new VideoPlayerOptions();
 
   /** Register this with the v2 embedding for the plugin to respond to lifecycle callbacks. */
-  public VideoPlayerPlugin() {}
+  public CachedVideoPlayerPlugin() {}
 
   @SuppressWarnings("deprecation")
-  private VideoPlayerPlugin(io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
+  private CachedVideoPlayerPlugin(io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
     this.flutterState =
         new FlutterState(
             registrar.context(),
@@ -51,7 +51,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
   /** Registers this with the stable v1 embedding. Will not respond to lifecycle events. */
   @SuppressWarnings("deprecation")
   public static void registerWith(io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
-    final VideoPlayerPlugin plugin = new VideoPlayerPlugin(registrar);
+    final CachedVideoPlayerPlugin plugin = new CachedVideoPlayerPlugin(registrar);
     registrar.addViewDestroyListener(
         view -> {
           plugin.onDestroy();
@@ -123,7 +123,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
         new EventChannel(
             flutterState.binaryMessenger, "flutter.io/videoPlayer/videoEvents" + handle.id());
 
-    VideoPlayer player;
+    CachedVideoPlayer player;
     if (arg.getAsset() != null) {
       String assetLookupKey;
       if (arg.getPackageName() != null) {
@@ -133,7 +133,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
         assetLookupKey = flutterState.keyForAsset.get(arg.getAsset());
       }
       player =
-          new VideoPlayer(
+          new CachedVideoPlayer(
               flutterState.applicationContext,
               eventChannel,
               handle,
@@ -145,7 +145,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
       @SuppressWarnings("unchecked")
       Map<String, String> httpHeaders = arg.getHttpHeaders();
       player =
-          new VideoPlayer(
+          new CachedVideoPlayer(
               flutterState.applicationContext,
               eventChannel,
               handle,
@@ -162,33 +162,33 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
   }
 
   public void dispose(TextureMessage arg) {
-    VideoPlayer player = videoPlayers.get(arg.getTextureId());
+    CachedVideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.dispose();
     videoPlayers.remove(arg.getTextureId());
   }
 
   public void setLooping(LoopingMessage arg) {
-    VideoPlayer player = videoPlayers.get(arg.getTextureId());
+    CachedVideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.setLooping(arg.getIsLooping());
   }
 
   public void setVolume(VolumeMessage arg) {
-    VideoPlayer player = videoPlayers.get(arg.getTextureId());
+    CachedVideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.setVolume(arg.getVolume());
   }
 
   public void setPlaybackSpeed(PlaybackSpeedMessage arg) {
-    VideoPlayer player = videoPlayers.get(arg.getTextureId());
+    CachedVideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.setPlaybackSpeed(arg.getSpeed());
   }
 
   public void play(TextureMessage arg) {
-    VideoPlayer player = videoPlayers.get(arg.getTextureId());
+    CachedVideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.play();
   }
 
   public PositionMessage position(TextureMessage arg) {
-    VideoPlayer player = videoPlayers.get(arg.getTextureId());
+    CachedVideoPlayer player = videoPlayers.get(arg.getTextureId());
     PositionMessage result = new PositionMessage();
     result.setPosition(player.getPosition());
     player.sendBufferingUpdate();
@@ -196,12 +196,12 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
   }
 
   public void seekTo(PositionMessage arg) {
-    VideoPlayer player = videoPlayers.get(arg.getTextureId());
+    CachedVideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.seekTo(arg.getPosition().intValue());
   }
 
   public void pause(TextureMessage arg) {
-    VideoPlayer player = videoPlayers.get(arg.getTextureId());
+    CachedVideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.pause();
   }
 
@@ -238,7 +238,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
       this.textureRegistry = textureRegistry;
     }
 
-    void startListening(VideoPlayerPlugin methodCallHandler, BinaryMessenger messenger) {
+    void startListening(CachedVideoPlayerPlugin methodCallHandler, BinaryMessenger messenger) {
       VideoPlayerApi.setup(messenger, methodCallHandler);
     }
 

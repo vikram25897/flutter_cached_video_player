@@ -25,3 +25,7 @@ Support iOS
 ## 2.0.0-dev.1
 
 Based on video_player 2.1.1
+
+## 2.0.1
+
+Change back to `CachedVideoPlayer` namespace.
