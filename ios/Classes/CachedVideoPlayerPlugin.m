@@ -536,6 +536,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     NSURL *usedURL = [NSURL URLWithString:input.uri];
     if(![input.formatHint isEqual: @"hls"]) {
       usedURL = [KTVHTTPCache proxyURLWithOriginalURL:usedURL];
+      [KTVHTTPCache downloadSetAdditionalHeaders:input.httpHeaders];
     }
 
     player = [[CachedVideoPlayer alloc] initWithURL:usedURL
