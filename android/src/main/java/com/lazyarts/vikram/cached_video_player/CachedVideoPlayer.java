@@ -53,7 +53,7 @@ final class CachedVideoPlayer {
 
     private final TextureRegistry.SurfaceTextureEntry textureEntry;
 
-    private QueuingEventSink eventSink = new QueuingEventSink();
+    private final QueuingEventSink eventSink = new QueuingEventSink();
 
     private final EventChannel eventChannel;
 
