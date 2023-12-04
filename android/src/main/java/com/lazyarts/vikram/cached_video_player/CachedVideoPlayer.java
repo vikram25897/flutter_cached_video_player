@@ -94,7 +94,8 @@ final class CachedVideoPlayer {
         }
 
         MediaSource mediaSource = buildMediaSource(uri, dataSourceFactory, formatHint, context);
-        exoPlayer.setMediaSource(mediaSource);
+        MediaItem mediaItem = mediaSource.getMediaItem();
+        exoPlayer.setMediaItem(mediaItem);
         exoPlayer.prepare();
 
         setupVideoPlayer(eventChannel, textureEntry);
